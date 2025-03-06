@@ -1,0 +1,26 @@
+{
+  "name": "posts_project",
+  "version": "1.0.0",
+  "description": "A React SPA for posts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NickyEnglish2/posts_project.git"
+  },
+  "keywords": [
+    "posts",
+    "SPA",
+    "React",
+    "edit",
+    "delete"
+  ],
+  "author": "Fomin Ilya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NickyEnglish2/posts_project/issues"
+  },
+  "homepage": "https://github.com/NickyEnglish2/posts_project#readme"
+}
