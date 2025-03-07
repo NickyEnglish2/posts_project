@@ -1,0 +1,223 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "First Post by User 1",
+      "body": "This is the body of the first post by User 1.",
+      "userId": 1,
+      "comments": [1]
+    },
+    {
+      "id": 2,
+      "title": "Second Post by User 1",
+      "body": "This is the body of the second post by User 1.",
+      "userId": 1,
+      "comments": [2]
+    },
+    {
+      "id": 3,
+      "title": "Third Post by User 1",
+      "body": "This is the body of the third post by User 1.",
+      "userId": 1,
+      "comments": [3]
+    },
+    {
+      "id": 4,
+      "title": "First Post by User 2",
+      "body": "This is the body of the first post by User 2.",
+      "userId": 2,
+      "comments": [4]
+    },
+    {
+      "id": 5,
+      "title": "Second Post by User 2",
+      "body": "This is the body of the second post by User 2.",
+      "userId": 2,
+      "comments": [5]
+    },
+    {
+      "id": 6,
+      "title": "Third Post by User 2",
+      "body": "This is the body of the third post by User 2.",
+      "userId": 2,
+      "comments": [6]
+    },
+    {
+      "id": 7,
+      "title": "First Post by User 3",
+      "body": "This is the body of the first post by User 3.",
+      "userId": 3,
+      "comments": [7]
+    },
+    {
+      "id": 8,
+      "title": "Second Post by User 3",
+      "body": "This is the body of the second post by User 3.",
+      "userId": 3,
+      "comments": [8]
+    },
+    {
+      "id": 9,
+      "title": "Third Post by User 3",
+      "body": "This is the body of the third post by User 3.",
+      "userId": 3,
+      "comments": [9]
+    },
+    {
+      "id": 10,
+      "title": "First Post by User 4",
+      "body": "This is the body of the first post by User 4.",
+      "userId": 4,
+      "comments": [10]
+    },
+    {
+      "id": 11,
+      "title": "Second Post by User 4",
+      "body": "This is the body of the second post by User 4.",
+      "userId": 4,
+      "comments": [11]
+    },
+    {
+      "id": 12,
+      "title": "Third Post by User 4",
+      "body": "This is the body of the third post by User 4.",
+      "userId": 4,
+      "comments": [12]
+    },
+    {
+      "id": 13,
+      "title": "First Post by User 5",
+      "body": "This is the body of the first post by User 5.",
+      "userId": 5,
+      "comments": [13]
+    },
+    {
+      "id": 14,
+      "title": "Second Post by User 5",
+      "body": "This is the body of the second post by User 5.",
+      "userId": 5,
+      "comments": [14]
+    },
+    {
+      "id": 15,
+      "title": "Third Post by User 5",
+      "body": "This is the body of the third post by User 5.",
+      "userId": 5,
+      "comments": [15]
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "postId": 1,
+      "userId": 2,
+      "body": "Great post! I really enjoyed reading it."
+    },
+    {
+      "id": 2,
+      "postId": 2,
+      "userId": 3,
+      "body": "Interesting thoughts. Keep it up!"
+    },
+    {
+      "id": 3,
+      "postId": 3,
+      "userId": 4,
+      "body": "Nice post! I learned a lot."
+    },
+    {
+      "id": 4,
+      "postId": 4,
+      "userId": 1,
+      "body": "This is a fantastic post. Thanks for sharing!"
+    },
+    {
+      "id": 5,
+      "postId": 5,
+      "userId": 3,
+      "body": "I have a question about this topic. Can you elaborate?"
+    },
+    {
+      "id": 6,
+      "postId": 6,
+      "userId": 5,
+      "body": "I completely agree with your points. Well done!"
+    },
+    {
+      "id": 7,
+      "postId": 7,
+      "userId": 1,
+      "body": "Great post! I really enjoyed reading it."
+    },
+    {
+      "id": 8,
+      "postId": 8,
+      "userId": 2,
+      "body": "Interesting thoughts. Keep it up!"
+    },
+    {
+      "id": 9,
+      "postId": 9,
+      "userId": 4,
+      "body": "Nice post! I learned a lot."
+    },
+    {
+      "id": 10,
+      "postId": 10,
+      "userId": 5,
+      "body": "This is a fantastic post. Thanks for sharing!"
+    },
+    {
+      "id": 11,
+      "postId": 11,
+      "userId": 1,
+      "body": "I have a question about this topic. Can you elaborate?"
+    },
+    {
+      "id": 12,
+      "postId": 12,
+      "userId": 3,
+      "body": "I completely agree with your points. Well done!"
+    },
+    {
+      "id": 13,
+      "postId": 13,
+      "userId": 2,
+      "body": "Great post! I really enjoyed reading it."
+    },
+    {
+      "id": 14,
+      "postId": 14,
+      "userId": 4,
+      "body": "Interesting thoughts. Keep it up!"
+    },
+    {
+      "id": 15,
+      "postId": 15,
+      "userId": 1,
+      "body": "Nice post! I learned a lot."
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith"
+    },
+    {
+      "id": 3,
+      "name": "Alice Johnson"
+    },
+    {
+      "id": 4,
+      "name": "Bob Brown"
+    },
+    {
+      "id": 5,
+      "name": "Charlie Davis"
+    }
+  ]
+}
