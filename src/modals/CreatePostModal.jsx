@@ -8,6 +8,7 @@ const CreatePostModal = ({ show, onHide, users, onSubmit }) => {
       title: '',
       body: '',
       userId: null,
+      comments: [],
     },
     validationSchema: postSchema,
     onSubmit: (values) => {

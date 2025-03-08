@@ -11,6 +11,11 @@ export const addPost = createAsyncThunk('posts/addPost', async (postData) => {
   return response.data;
 });
 
+export const editPost = createAsyncThunk('posts/editPost', async (postData) => {
+  const response = await axios.patch(`/api/posts/${postData.id}`, postData);
+  return response.data;
+});
+
 export const deletePost = createAsyncThunk('posts/deletePost', async (postId) => {
   await axios.delete(`/api/posts/${postId}`);
   return postId;
@@ -41,6 +46,12 @@ const PostsSlice = createSlice({
       })
       .addCase(addPost.fulfilled, (state, action) => {
         state.items.push(action.payload);
+      })
+      .addCase(editPost.fulfilled, (state, action) => {
+        const index = state.items.findIndex((post) => post.id === action.payload.id);
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        }
       })
       .addCase(deletePost.fulfilled, (state, action) => {
         state.items = state.items.filter((post) => post.id !== action.payload);

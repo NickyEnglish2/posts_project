@@ -50,7 +50,7 @@ const MainContent = () => {
     const matchesSearch = post.title
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-    const matchesUser = selectedUserId ? post.userId === Number(selectedUserId) : true;
+    const matchesUser = selectedUserId ? post.userId === selectedUserId : true;
     return matchesSearch && matchesUser;
   });
 
@@ -75,9 +75,9 @@ const MainContent = () => {
     dispatch(addPost(postData));
   };
 
-  const handlePostDelete = async (postId) => {
-    await dispatch(deletePost(postId));
-    await dispatch(deleteComments(postId));
+  const handlePostDelete = async (post) => {
+    await post.comments.forEach((comment) => dispatch(deleteComments(comment)));
+    await dispatch(deletePost(post.id));
 
     dispatch(fetchPosts());
     dispatch(fetchUsers());
@@ -138,7 +138,7 @@ const MainContent = () => {
                     Автор: {usersMap[post.userId]}
                   </Card.Subtitle>
                   <Card.Text>{cutText(post.body, 35)}</Card.Text>
-                  <Button variant="danger" onClick={() => handlePostDelete(post.id)}>
+                  <Button variant="danger" onClick={() => handlePostDelete(post)}>
                     Удалить пост
                   </Button>
                 </Card.Body>

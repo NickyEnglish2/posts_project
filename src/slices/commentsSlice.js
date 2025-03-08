@@ -7,9 +7,9 @@ export const fetchComments = createAsyncThunk('comments/fetchComments', async ()
   return response.data;
 });
 
-export const deleteComments = createAsyncThunk('comments/deleteComments', async (postId) => {
-  await axios.delete(`/api/comments?postId=${postId}`);
-  return postId;
+export const deleteComments = createAsyncThunk('comments/deleteComments', async (commentId) => {
+  await axios.delete(`/api/comments/${commentId}`);
+  return commentId;
 });
 
 const initialState = {
