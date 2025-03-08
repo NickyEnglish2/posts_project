@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Form, Row, Col, Pagination, Dropdown, Spinner, Card, Button } from 'react-bootstrap';
-import { fetchPosts, addPost, deletePost } from '../slices/postsSlice';
+import { fetchPosts, addPost, deletePost, editPost } from '../slices/postsSlice';
 import { fetchUsers } from '../slices/usersSlice';
 import { fetchComments, deleteComments } from '../slices/commentsSlice';
 import CreatePostModal from '../modals/CreatePostModal.jsx';
+import EditPostModal from '../modals/EditPostModal.jsx';
 
 const MainContent = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,8 @@ const MainContent = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
 
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     if (postsStatus === 'idle') {
@@ -67,12 +70,21 @@ const MainContent = () => {
     setCurrentPage(pageNumber);
   };
 
+  const EditModalShow = (post) => {
+    setSelectedPost(post);
+    setShowEditModal(true);
+  };
+
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, selectedUserId]);
 
   const handlePostCreate = (postData) => {
     dispatch(addPost(postData));
+  };
+
+  const handlePostEdit = (postData) => {
+    dispatch(editPost(postData));
   };
 
   const handlePostDelete = async (post) => {
@@ -102,7 +114,7 @@ const MainContent = () => {
           <Col md={6}>
             <Form.Control
               type="text"
-              placeholder="Искать по названию поста"
+              placeholder="Искать по названию поста..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -140,6 +152,9 @@ const MainContent = () => {
                   <Card.Text>{cutText(post.body, 35)}</Card.Text>
                   <Button variant="danger" onClick={() => handlePostDelete(post)}>
                     Удалить пост
+                  </Button>
+                  <Button variant="warning" onClick={() => EditModalShow(post)}>
+                    Отредактировать
                   </Button>
                 </Card.Body>
               </Card>
@@ -179,6 +194,12 @@ const MainContent = () => {
         onHide={() => setShowCreateModal(false)}
         users={users}
         onSubmit={handlePostCreate}
+      />
+      <EditPostModal
+        show={showEditModal}
+        onHide={() => setShowEditModal(false)}
+        post={selectedPost}
+        onSubmit={handlePostEdit}
       />
     </Container>
   );
