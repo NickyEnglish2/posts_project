@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Form, Row, Col, Pagination, Dropdown, Spinner, Card } from 'react-bootstrap';
-import { fetchPosts } from '../slices/postsSlice';
+import { Container, Form, Row, Col, Pagination, Dropdown, Spinner, Card, Button } from 'react-bootstrap';
+import { fetchPosts, addPost, deletePost } from '../slices/postsSlice';
 import { fetchUsers } from '../slices/usersSlice';
+import { fetchComments, deleteComments } from '../slices/commentsSlice';
+import CreatePostModal from '../modals/CreatePostModal.jsx';
 
 const MainContent = () => {
   const dispatch = useDispatch();
@@ -15,11 +17,17 @@ const MainContent = () => {
   const usersStatus = useSelector((state) => state.users.status);
   const usersError = useSelector((state) => state.users.error);
 
+  // const comments = useSelector((state) => state.comments.items);
+  const commentsStatus = useSelector((state) => state.comments.status);
+  const commentsError = useSelector((state) => state.comments.error);
+
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 10;
+  const postsPerPage = 9;
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(null);
+
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   useEffect(() => {
     if (postsStatus === 'idle') {
@@ -28,7 +36,10 @@ const MainContent = () => {
     if (usersStatus === 'idle') {
       dispatch(fetchUsers());
     }
-  }, [postsStatus, usersStatus, dispatch]);
+    if (commentsStatus === 'idle') {
+      dispatch(fetchComments());
+    }
+  }, [postsStatus, usersStatus, commentsStatus, dispatch]);
 
   const usersMap = users.reduce((map, user) => {
     map[user.id] = user.name;
@@ -60,11 +71,31 @@ const MainContent = () => {
     setCurrentPage(1);
   }, [searchTerm, selectedUserId]);
 
+  const handlePostCreate = (postData) => {
+    dispatch(addPost(postData));
+  };
+
+  const handlePostDelete = async (postId) => {
+    await dispatch(deletePost(postId));
+    await dispatch(deleteComments(postId));
+
+    dispatch(fetchPosts());
+    dispatch(fetchUsers());
+    dispatch(fetchComments())
+  };
+
+  const cutText = (text, maxLength) => {
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + '...';
+    }
+    return text;
+  };
+
   let content;
 
-  if (postsStatus === 'loading' || usersStatus === 'loading') {
+  if (postsStatus === 'loading' || usersStatus === 'loading' || commentsStatus === 'loading') {
     content = <Spinner animation="border" />;
-  } else if (postsStatus === 'success' && usersStatus === 'success') {
+  } else if (postsStatus === 'success' && usersStatus === 'success' && commentsStatus === 'success') {
     content = (
       <>
         <Row className="mb-4">
@@ -106,7 +137,10 @@ const MainContent = () => {
                   <Card.Subtitle className="mb-2 text-muted">
                     Автор: {usersMap[post.userId]}
                   </Card.Subtitle>
-                  <Card.Text>{post.body}</Card.Text>
+                  <Card.Text>{cutText(post.body, 35)}</Card.Text>
+                  <Button variant="danger" onClick={() => handlePostDelete(post.id)}>
+                    Удалить пост
+                  </Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -129,14 +163,23 @@ const MainContent = () => {
         </Row>
       </>
     );
-  } else if (postsStatus === 'failure' || usersStatus === 'failure') {
-    content = <div>Произошла ошибка: {postsError || usersError}</div>
+  } else if (postsStatus === 'failure' || usersStatus === 'failure' || commentsStatus === 'failure') {
+    content = <div>Произошла ошибка: {postsError || usersError || commentsError}</div>
   }
 
   return (
     <Container className="mt-4">
       <h1>Список постов</h1>
+      <Button variant="primary" onClick={() => setShowCreateModal(true)}>
+        Создать пост
+      </Button>
       {content}
+      <CreatePostModal
+        show={showCreateModal}
+        onHide={() => setShowCreateModal(false)}
+        users={users}
+        onSubmit={handlePostCreate}
+      />
     </Container>
   );
 };
