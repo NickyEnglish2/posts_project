@@ -1,10 +1,12 @@
 import { useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPosts } from '../slices/postsSlice';
+import { fetchPosts, editPost } from '../slices/postsSlice';
 import { fetchUsers } from '../slices/usersSlice';
-import { fetchComments } from '../slices/commentsSlice';
-import { Container, Card, Spinner, Button } from 'react-bootstrap';
+import { fetchComments, addComment } from '../slices/commentsSlice';
+import { Container, Card, Spinner, Button, Form, Dropdown } from 'react-bootstrap';
+import { useFormik } from 'formik';
+import addCommentValidation from '../validations/addCommentValidation';
 
 const PostDetailed = () => {
   const { postId } = useParams();
@@ -33,6 +35,34 @@ const PostDetailed = () => {
       dispatch(fetchComments());
     }
   }, [dispatch, post, user, postComments.length]);
+
+  const formik = useFormik({
+    initialValues: {
+      body: '',
+      userid: null,
+    },
+    validationSchema: addCommentValidation,
+    onSubmit: async (values) => {
+      if (!post) return;
+
+      const newComment = {
+        postId: post.id,
+        userId: values.userId,
+        body: values.body,
+      };
+
+      const addedComment = await dispatch(addComment(newComment)).unwrap();
+
+      const updatedPost = {
+        ...post,
+        comments: [...post.comments, addedComment.id],
+      };
+
+      await dispatch(editPost(updatedPost));
+
+      formik.resetForm();
+    },
+  });
 
   if (!post || !user) {
     return <Spinner animation="border" />;
@@ -69,6 +99,55 @@ const PostDetailed = () => {
           </Card>
         );
       })}
+
+      <Card className="mt-4">
+        <Card.Body>
+          <Form onSubmit={formik.handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Комментарий</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                name="body"
+                value={formik.values.body}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isInvalid={formik.touched.body && !!formik.errors.body}
+                placeholder="Введите ваш комментарий..."
+              />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.body}
+              </Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Автор комментария:</Form.Label>
+              <Dropdown>
+                <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                  {formik.values.userId
+                    ? users.find((u) => u.id === formik.values.userId)?.name
+                    : 'Выберите пользователя'}
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {users.map((user) => (
+                    <Dropdown.Item
+                      key={user.id}
+                      onClick={() => formik.setFieldValue('userId', user.id)}
+                    >
+                      {user.name}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+              {formik.touched.userId && formik.errors.userId ? (
+                <div className="text-danger">{formik.errors.userId}</div>
+              ) : null}
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Отправить
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
     </Container>
   );
 };

@@ -7,6 +7,11 @@ export const fetchComments = createAsyncThunk('comments/fetchComments', async ()
   return response.data;
 });
 
+export const addComment = createAsyncThunk('comments/addComment', async (commentData) => {
+  const response = await axios.post('/api/comments', commentData);
+  return response.data;
+});
+
 export const deleteComments = createAsyncThunk('comments/deleteComments', async (commentId) => {
   await axios.delete(`/api/comments/${commentId}`);
   return commentId;
@@ -34,6 +39,13 @@ const commentsSlice = createSlice({
       .addCase(fetchComments.rejected, (state, action) => {
         state.status = 'failure';
         state.error = action.error.message;
+      })
+      .addCase(addComment.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        state.status = 'success';
+        state.items.push(action.payload);
       })
       .addCase(deleteComments.pending, (state) => {
         state.status = 'loading';
