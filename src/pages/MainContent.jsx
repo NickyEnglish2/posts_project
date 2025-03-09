@@ -4,6 +4,7 @@ import { Container, Form, Row, Col, Pagination, Dropdown, Spinner, Card, Button 
 import { fetchPosts, addPost, deletePost, editPost } from '../slices/postsSlice';
 import { fetchUsers } from '../slices/usersSlice';
 import { fetchComments, deleteComments } from '../slices/commentsSlice';
+import { Link } from 'react-router-dom';
 import CreatePostModal from '../modals/CreatePostModal.jsx';
 import EditPostModal from '../modals/EditPostModal.jsx';
 
@@ -145,7 +146,9 @@ const MainContent = () => {
             <Col key={post.id} md={4} className="mb-4">
               <Card>
                 <Card.Body>
-                  <Card.Title>{post.title}</Card.Title>
+                  <Card.Title>
+                    <Link to={`/post/${post.id}`}>{post.title}</Link>
+                  </Card.Title>
                   <Card.Subtitle className="mb-2 text-muted">
                     Автор: {usersMap[post.userId]}
                   </Card.Subtitle>
