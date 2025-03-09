@@ -1,9 +1,9 @@
-import MainContent from './pages/MainContent'
+import AppRouter from './AppRouter'
 
 function App() {
   return (
     <>
-      <MainContent />
+      <AppRouter />
     </>
   )
 }
