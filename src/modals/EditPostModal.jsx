@@ -28,13 +28,11 @@ const EditPostModal = ({ show, onHide, post, onSubmit }) => {
         userId: post.userId,
       });
     } else {
-      // Сброс формы, если post отсутствует или модальное окно закрыто
       formik.resetForm();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post, show]);
 
-  // Если модальное окно закрыто или post отсутствует, не рендерим содержимое
   if (!show || !post) {
     return null;
   }
