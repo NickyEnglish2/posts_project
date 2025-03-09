@@ -20,16 +20,24 @@ const EditPostModal = ({ show, onHide, post, onSubmit }) => {
   });
 
   useEffect(() => {
-    if (post) {
+    if (post && show) {
       formik.setValues({
         id: post.id,
         title: post.title,
         body: post.body,
         userId: post.userId,
       });
+    } else {
+      // Сброс формы, если post отсутствует или модальное окно закрыто
+      formik.resetForm();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [post]);
+  }, [post, show]);
+
+  // Если модальное окно закрыто или post отсутствует, не рендерим содержимое
+  if (!show || !post) {
+    return null;
+  }
 
   return (
     <Modal show={show} onHide={onHide}>
