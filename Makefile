@@ -1,7 +1,7 @@
 install:
 				npm ci
 
-start:
+front:
 				npm run dev
 
 build:
@@ -9,3 +9,12 @@ build:
 
 preview:
 				npm run preview
+
+server:
+				npx json-server data/db.json
+
+start:
+				make server & make front
+
+test:
+				npm run test
